@@ -1,0 +1,103 @@
+set nocompatible
+
+" vundle
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'majutsushi/tagbar'
+" Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'aghareza/vim-gitgrep'
+Plugin 'yegappan/grep'
+Plugin 'wesleyche/SrcExpl'
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+nmap <F9> :SrcExplToggle<CR> 
+
+" // Set the height of Source Explorer window 
+let g:SrcExpl_winHeight = 8 
+
+" // Set 100 ms for refreshing the Source Explorer 
+let g:SrcExpl_refreshTime = 100 
+
+" // Set "Enter" key to jump into the exact definition context 
+let g:SrcExpl_jumpKey = "<ENTER>" 
+
+" // Set "Space" key for back from the definition context 
+let g:SrcExpl_gobackKey = "<SPACE>" 
+
+" // In order to avoid conflicts, the Source Explorer should know what plugins
+" // except itself are using buffers. And you need add their buffer names into
+" // below listaccording to the command ":buffers!"
+let g:SrcExpl_pluginList = [ 
+        \ "__Tagbar__", 
+        \ "_NERD_tree_",
+        \ "[Quickfix List]"
+    \ ] 
+
+" // Enable/Disable the local definition searching, and note that this is not 
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now. 
+" // It only searches for a match with the keyword according to command 'gd' 
+let g:SrcExpl_searchLocalDef = 1 
+
+" // Do not let the Source Explorer update the tags file when opening 
+let g:SrcExpl_isUpdateTags = 0 
+
+" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to 
+" // create/update the tags file 
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." 
+
+" // Set "<F12>" key for updating the tags file artificially 
+let g:SrcExpl_updateTagsKey = "<F12>" 
+
+" // Set "<F10>" key for displaying the previous definition in the jump list 
+let g:SrcExpl_prevDefKey = "<F10>" 
+
+" // Set "<F10>" key for displaying the next definition in the jump list 
+let g:SrcExpl_nextDefKey = "<F11>"
+
+syntax on
+hi statement guifg=darkgray
+hi preproc guifg=seagreen
+hi constant guifg=darkgreen
+hi Search ctermfg=darkblue ctermbg=white
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set autoindent
+set smartindent
+set fileformat=unix
+set cindent
+set makeprg=make\ all
+set hlsearch
+set showmode
+set backspace=2
+hi Comment ctermfg=darkgreen
+hi String ctermfg=blue
+set number
+
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_left=1
+
+" keymap
+map <F3> <ESC> :GitGrep <C-R><C-W><CR>
+map <C-]> g<C-]>
+map <C-LeftMouse> g<C-]>
+
+" tab color
+hi TabLineFill cterm=none ctermfg=grey ctermbg=cyan
+hi TabLine cterm=none ctermfg=white ctermbg=cyan
+hi TabLineSel cterm=none ctermfg=black ctermbg=yellow
+
+" color column
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%121v.\+/
