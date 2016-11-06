@@ -1,1 +1,1 @@
-# dot_files
+Configuration files for vim, tmux, etc.
