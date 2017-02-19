@@ -12,8 +12,10 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'aghareza/vim-gitgrep'
-"Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/LeaderF'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'vim-airline/vim-airline'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " ==============================================================================
@@ -45,7 +47,8 @@ set showmode
 set backspace=2
 set number
 set switchbuf+=usetab,newtab
-"set colorcolumn=120
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+" set colorcolumn=120
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%121v.\+/
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -59,15 +62,20 @@ let g:tagbar_left=1
 
 
 " ================================= nerdtree ===================================
-let g:NERDTreeWinPos = "right"
-"let NERDTreeMapOpenInTab='<ENTER>'
+" let g:NERDTreeWinPos = "right"
+" let NERDTreeMapOpenInTab='<ENTER>'
+" ==============================================================================
+
+" =================================== ctrlp ====================================
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_regexp = 1
 " ==============================================================================
 
 
 " ================================== keymap ====================================
 nmap <F8> :TagbarToggle<CR>
 map <F3> <ESC> :GitGrep <C-R><C-W><CR>
-"map <F4> :NERDTreeToggle<CR>
 map <F4> <ESC>:Leaderf<CR>
 map <F6> :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 map <C-]> g<C-]>
@@ -93,3 +101,12 @@ nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:cwindow<CR>
 nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
 " ==============================================================================
 
+
+" ===================================airline====================================
+" set status line
+set laststatus=2
+" enable powerline-fonts
+let g:airline_powerline_fonts = 1
+" enable tabline
+let g:airline#extensions#tabline#enabled = 1
+" ==============================================================================
