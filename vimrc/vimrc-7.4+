@@ -13,9 +13,16 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'aghareza/vim-gitgrep'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Yggdroot/LeaderF'
+" Plugin 'Yggdroot/LeaderF'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'justinmk/vim-syntax-extra'
+" colorscheme
+" Plugin 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
+Plugin 'dracula/vim'
+Plugin 'tomasr/molokai'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " ==============================================================================
@@ -29,11 +36,6 @@ hi constant guifg=darkgreen
 hi Search ctermfg=darkblue ctermbg=white
 hi Comment ctermfg=darkgreen
 hi String ctermfg=blue
-" tab color
-hi TabLineFill cterm=none ctermfg=grey ctermbg=cyan
-hi TabLine cterm=none ctermfg=white ctermbg=cyan
-hi TabLineSel cterm=none ctermfg=black ctermbg=yellow
-highlight ExtraWhitespace ctermbg=red guibg=red
 set tabstop=4
 set expandtab
 set shiftwidth=4
@@ -48,11 +50,9 @@ set backspace=2
 set number
 set switchbuf+=usetab,newtab
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-" set colorcolumn=120
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%121v.\+/
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
+set colorcolumn=121
+highlight ColorColumn ctermbg=9 guibg=#2c2d27
+set guifont=Noto\ Mono\ for\ Powerline\ 11
 " ==============================================================================
 
 
@@ -110,3 +110,16 @@ let g:airline_powerline_fonts = 1
 " enable tabline
 let g:airline#extensions#tabline#enabled = 1
 " ==============================================================================
+
+
+" =============================== colorscheme ==================================a
+" colorscheme solarized
+" let g:solarized_termcolors=256
+"  colorscheme gruvbox
+" colorscheme dracula
+colorscheme molokai
+set background=dark
+set cursorline
+" ==============================================================================
+
+
