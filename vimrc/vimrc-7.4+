@@ -16,13 +16,14 @@ Plugin 'aghareza/vim-gitgrep'
 " Plugin 'Yggdroot/LeaderF'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
+Plugin 'edkolev/tmuxline.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'justinmk/vim-syntax-extra'
 " colorscheme
 " Plugin 'altercation/vim-colors-solarized'
 Plugin 'nanotech/jellybeans.vim'
-"Plugin 'morhetz/gruvbox'
-"Plugin 'tomasr/molokai'
+" Plugin 'morhetz/gruvbox'
+" Plugin 'tomasr/molokai'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " ==============================================================================
@@ -30,13 +31,13 @@ filetype plugin indent on    " required
 
 " =============================== editor style==================================
 syntax on
-hi statement guifg=darkgray
-hi preproc guifg=seagreen
-hi constant guifg=darkgreen
-hi Search ctermfg=darkblue ctermbg=white
-hi Comment ctermfg=darkgreen
-hi String ctermfg=blue
-highlight ColorColumn ctermbg=9 guibg=#2c2d27
+" hi statement guifg=darkgray
+" hi preproc guifg=seagreen
+" hi constant guifg=darkgreen
+" hi Search ctermfg=darkblue ctermbg=white
+" hi Comment ctermfg=darkgreen
+" hi String ctermfg=blue
+" highlight ColorColumn ctermbg=9 guibg=#2c2d27
 set guifont=Noto\ Mono\ for\ Powerline\ 11
 set tabstop=4
 set expandtab
@@ -53,7 +54,7 @@ set number
 set switchbuf+=usetab,newtab
 set colorcolumn=121
 autocmd FileType make setlocal noexpandtab
-" autocmd BufWritePre * %s/\s\+$//e " Automatically removing all trailing whitespace
+autocmd BufWritePre * %s/\s\+$//e " Automatically removing all trailing whitespace
 " ==============================================================================
 
 
