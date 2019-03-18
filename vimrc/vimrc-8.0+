@@ -1,0 +1,175 @@
+" -------------------------------------------------------------------
+" Editor
+" -------------------------------------------------------------------
+set background=dark
+set cursorline
+set t_Co=256
+set guifont=Noto\ Mono\ for\ Powerline\ 11
+set colorcolumn=121
+
+syntax on
+"highlight ModeMsg ctermfg=green
+set tags=./tags,tags
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set autoindent
+set smartindent
+set fileformat=unix
+set cindent
+set makeprg=make\ all
+set hlsearch
+set showmode
+set backspace=2
+set number
+set switchbuf+=usetab,newtab
+autocmd FileType make setlocal noexpandtab
+autocmd BufWritePre * %s/\s\+$//e
+
+" -------------------------------------------------------------------
+" vim-plug
+" -------------------------------------------------------------------
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+" Make sure you use single quotes
+" Plug 'rdnetto/YCM-Generator'
+Plug 'Valloric/YouCompleteMe'
+Plug 'majutsushi/tagbar'
+Plug 'aghareza/vim-gitgrep'
+Plug 'scrooloose/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'edkolev/tmuxline.vim'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'morhetz/gruvbox'
+Plug 'justinmk/vim-syntax-extra'
+Plug 'nanotech/jellybeans.vim'
+Plug 'tomasr/molokai'
+Plug 'mhinz/vim-signify'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'w0rp/ale'
+" Initialize plugin system
+call plug#end()
+
+" -------------------------------------------------------------------
+" ctrlp
+" -------------------------------------------------------------------
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_regexp = 1
+
+" -------------------------------------------------------------------
+" leaderF
+" -------------------------------------------------------------------
+"let g:Lf_ShortcutF = '<c-p>'
+"let g:Lf_ShortcutB = '<a-n>'
+"noremap <c-n> :LeaderfMru<cr>
+"noremap <m-p> :LeaderfFunction!<cr>
+"noremap <m-n> :LeaderfBuffer<cr>
+"noremap <m-m> :LeaderfTag<cr>
+"let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+"let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+"let g:Lf_WorkingDirectoryMode = 'Ac'
+"let g:Lf_WindowHeight = 0.30
+"let g:Lf_CacheDirectory = expand('~/.vim/cache')
+"let g:Lf_ShowRelativePath = 0
+"let g:Lf_HideHelp = 1
+"let g:Lf_StlColorscheme = 'powerline'
+"let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+
+" -------------------------------------------------------------------
+" tagbar
+" -------------------------------------------------------------------
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_left=1
+
+" -------------------------------------------------------------------
+" nerdtree
+" -------------------------------------------------------------------
+let g:NERDTreeWinPos = "right"
+
+" -------------------------------------------------------------------
+" keymap
+" -------------------------------------------------------------------
+map <F3> <ESC> :GitGrep <C-R><C-W><CR>
+" map <F4> :NERDTreeToggle<CR>
+" map <F4> <ESC>:Leaderf<CR>
+map <F6> :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+map <C-]> g<C-]>
+map <C-LeftMouse> g<C-]>
+" hi TabLineFill cterm=none ctermfg=grey ctermbg=cyan
+" hi TabLine cterm=none ctermfg=white ctermbg=cyan
+" hi TabLineSel cterm=none ctermfg=black ctermbg=yellow
+
+" -------------------------------------------------------------------
+" cscope
+" -------------------------------------------------------------------
+if filereadable("cscope.out")
+    cs add cscope.out
+" else add the database pointed to by environment variable
+elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+endif
+set cscopequickfix=c-,d-,e-,g-,i-,s-,t-
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR>:copen<CR>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR>:copen<CR>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR>:copen<CR>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR>:copen<CR>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR>:copen<CR>
+nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR>:copen<CR>
+nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR>:copen<CR>
+
+" -------------------------------------------------------------------
+" airline
+" -------------------------------------------------------------------
+" set status line
+set laststatus=2
+" enable powerline-fonts
+let g:airline_theme='gruvbox'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" -------------------------------------------------------------------
+" colorscheme
+" -------------------------------------------------------------------
+" colorscheme molokai
+colorscheme gruvbox
+let g:gruvbox_contrast_dark='hard'
+" colorscheme jellybeans
+" colorscheme molokai
+
+" -------------------------------------------------------------------
+" YouCompleteMe
+" -------------------------------------------------------------------
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+set completeopt=menu,menuone
+
+
+"let g:ycm_semantic_triggers =  {
+"            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+"            \ 'cs,lua,javascript': ['re!\w{2}'],
+"            \ }
+
+" -------------------------------------------------------------------
+" ale
+" -------------------------------------------------------------------
+let g:ale_linters_explicit = 1
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+let g:ale_c_cppcheck_options = ''
+
