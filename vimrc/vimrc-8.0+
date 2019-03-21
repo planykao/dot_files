@@ -34,22 +34,22 @@ autocmd BufWritePre * %s/\s\+$//e
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
-" Plug 'rdnetto/YCM-Generator'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'majutsushi/tagbar'
 Plug 'aghareza/vim-gitgrep'
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-syntax-extra'
-Plug 'nanotech/jellybeans.vim'
-Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
 Plug 'mhinz/vim-signify'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'w0rp/ale'
+" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+" Plug 'w0rp/ale'
+Plug 'skywind3000/vim-preview'
+Plug 'ludovicchabant/vim-gutentags'
 " Initialize plugin system
 call plug#end()
 
@@ -89,7 +89,7 @@ let g:tagbar_left=1
 " -------------------------------------------------------------------
 " nerdtree
 " -------------------------------------------------------------------
-let g:NERDTreeWinPos = "right"
+" let g:NERDTreeWinPos = "right"
 
 " -------------------------------------------------------------------
 " keymap
@@ -100,9 +100,6 @@ map <F3> <ESC> :GitGrep <C-R><C-W><CR>
 map <F6> :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 map <C-]> g<C-]>
 map <C-LeftMouse> g<C-]>
-" hi TabLineFill cterm=none ctermfg=grey ctermbg=cyan
-" hi TabLine cterm=none ctermfg=white ctermbg=cyan
-" hi TabLineSel cterm=none ctermfg=black ctermbg=yellow
 
 " -------------------------------------------------------------------
 " cscope
@@ -113,15 +110,21 @@ if filereadable("cscope.out")
 elseif $CSCOPE_DB != ""
     cs add $CSCOPE_DB
 endif
+" -------------------------------------------------------------------
+" gtags and cscope
+" cs find d is not working....
+" -------------------------------------------------------------------
+"set cscopetag
+"set cscopeprg=gtags-cscope
 set cscopequickfix=c-,d-,e-,g-,i-,s-,t-
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR>:copen<CR>
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR>:copen<CR>
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR>:copen<CR>
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR>:copen<CR>
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR>:copen<CR>
-nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR>:copen<CR>
-nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR>:copen<CR>
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+nmap <C-\>f :cs find f <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:bd<CR>:cwindow<CR>
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 " -------------------------------------------------------------------
 " airline
@@ -136,24 +139,18 @@ let g:airline#extensions#tabline#enabled = 1
 " -------------------------------------------------------------------
 " colorscheme
 " -------------------------------------------------------------------
-" colorscheme molokai
-colorscheme gruvbox
 let g:gruvbox_contrast_dark='hard'
-" colorscheme jellybeans
-" colorscheme molokai
+colorscheme gruvbox
 
 " -------------------------------------------------------------------
 " YouCompleteMe
 " -------------------------------------------------------------------
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_server_log_level = 'info'
-let g:ycm_min_num_identifier_candidate_chars = 2
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_complete_in_strings=1
-set completeopt=menu,menuone
-
-
+"let g:ycm_add_preview_to_completeopt = 0
+"let g:ycm_show_diagnostics_ui = 0
+"let g:ycm_min_num_identifier_candidate_chars = 2
+"let g:ycm_collect_identifiers_from_comments_and_strings = 1
+"let g:ycm_complete_in_strings=1
+"set completeopt=menu,menuone,noinsert
 "let g:ycm_semantic_triggers =  {
 "            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
 "            \ 'cs,lua,javascript': ['re!\w{2}'],
@@ -163,14 +160,36 @@ set completeopt=menu,menuone
 " ale
 " -------------------------------------------------------------------
 "let g:ale_linters_explicit = 1
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_lint_delay = 500
-let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:airline#extensions#ale#enabled = 1
-let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_c_cppcheck_options = ''
-let g:ale_sign_error = "!!"
+"let g:ale_completion_enabled = 1
+"let g:ale_completion_delay = 500
+"let g:ale_echo_delay = 20
+"let g:ale_lint_delay = 500
+"let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+"let g:ale_lint_on_text_changed = 'normal'
+"let g:ale_lint_on_insert_leave = 1
+"let g:airline#extensions#ale#enabled = 1
+"let g:ale_linters = {
+"    \   'c': ['gcc', 'cppcheck'],
+"    \}
+"let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+"let g:ale_c_cppcheck_options = ''
+"let g:ale_sign_error = "!!"
+
+" -------------------------------------------------------------------
+" vim-preview
+" -------------------------------------------------------------------
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+
+" -------------------------------------------------------------------
+" vim-gutentags
+" -------------------------------------------------------------------
+let g:gutentags_modules = []
+
+if executable('ctags')
+	let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+	let g:gutentags_modules += ['gtags_cscope']
+endif
 
