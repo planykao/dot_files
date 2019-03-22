@@ -50,6 +50,7 @@ Plug 'mhinz/vim-signify'
 " Plug 'w0rp/ale'
 Plug 'skywind3000/vim-preview'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
 " Initialize plugin system
 call plug#end()
 
@@ -102,29 +103,35 @@ map <C-]> g<C-]>
 map <C-LeftMouse> g<C-]>
 
 " -------------------------------------------------------------------
+" gutentags_plus
+" -------------------------------------------------------------------
+let g:gutentags_plus_switch = 1
+
+" -------------------------------------------------------------------
 " cscope
 " -------------------------------------------------------------------
-if filereadable("cscope.out")
-    cs add cscope.out
-" else add the database pointed to by environment variable
-elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-endif
+"if filereadable("cscope.out")
+"    cs add cscope.out
+"" else add the database pointed to by environment variable
+"elseif $CSCOPE_DB != ""
+"    cs add $CSCOPE_DB
+"endif
+"nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+"nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+"nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+"nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+"nmap <C-\>f :cs find f <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+"nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:bd<CR>:cwindow<CR>
+"nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
+
 " -------------------------------------------------------------------
-" gtags and cscope
+" gtags
 " cs find d is not working....
 " -------------------------------------------------------------------
-"set cscopetag
-"set cscopeprg=gtags-cscope
+set cscopetag
+set cscopeprg=gtags-cscope
 set cscopequickfix=c-,d-,e-,g-,i-,s-,t-
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
-nmap <C-\>f :cs find f <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
-nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:bd<CR>:cwindow<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 " -------------------------------------------------------------------
 " airline
@@ -192,4 +199,18 @@ endif
 if executable('gtags-cscope') && executable('gtags')
 	let g:gutentags_modules += ['gtags_cscope']
 endif
+
+" -------------------------------------------------------------------
+" gutentags_plus
+" GscopeFind d is not working
+" -------------------------------------------------------------------
+noremap <C-\>s :GscopeFind s <C-R><C-W><cr>
+noremap <C-\>g :GscopeFind g <C-R><C-W><cr>
+noremap <C-\>c :GscopeFind c <C-R><C-W><cr>
+noremap <C-\>t :GscopeFind t <C-R><C-W><cr>
+noremap <C-\>e :GscopeFind e <C-R><C-W><cr>
+noremap <C-\>f :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
+noremap <C-\>i :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
+noremap <C-\>d :GscopeFind d <C-R><C-W><cr>
+noremap <C-\>a :GscopeFind a <C-R><C-W><cr>
 
