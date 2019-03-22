@@ -101,6 +101,8 @@ map <F3> <ESC> :GitGrep <C-R><C-W><CR>
 map <F6> :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 map <C-]> g<C-]>
 map <C-LeftMouse> g<C-]>
+noremap <F9> :res -2<CR>
+noremap <F10> :res +2<CR>
 
 " -------------------------------------------------------------------
 " gutentags_plus
