@@ -9,7 +9,7 @@ set colorcolumn=121
 
 syntax on
 "highlight ModeMsg ctermfg=green
-set tags=./tags,tags
+"set tags=./tags,tags
 set tabstop=4
 set expandtab
 set shiftwidth=4
@@ -24,7 +24,15 @@ set backspace=2
 set number
 set switchbuf+=usetab,newtab
 autocmd FileType make setlocal noexpandtab
-autocmd BufWritePre * %s/\s\+$//e
+"autocmd BufWritePre * %s/\s\+$//e
+" Truecolor
+if has("termguicolors")
+    " fix bug for vim
+    set t_8f=[38;2;%lu;%lu;%lum
+    set t_8b=[48;2;%lu;%lu;%lum
+    " enable true color
+    set termguicolors
+endif
 
 " -------------------------------------------------------------------
 " vim-plug
@@ -38,7 +46,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'majutsushi/tagbar'
 Plug 'aghareza/vim-gitgrep'
 " Plug 'scrooloose/nerdtree'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'ntpeters/vim-better-whitespace'
@@ -46,7 +54,7 @@ Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-syntax-extra'
 " Plug 'tomasr/molokai'
 Plug 'mhinz/vim-signify'
-" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 " Plug 'w0rp/ale'
 Plug 'skywind3000/vim-preview'
 Plug 'ludovicchabant/vim-gutentags'
@@ -55,31 +63,25 @@ Plug 'skywind3000/gutentags_plus'
 call plug#end()
 
 " -------------------------------------------------------------------
+" vim-better-whitespace
+" -------------------------------------------------------------------
+let b:better_whitespace_enabled = 1
+let b:strip_whitespace_on_save = 1
+
+" -------------------------------------------------------------------
 " ctrlp
 " -------------------------------------------------------------------
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_regexp = 1
+"set runtimepath^=~/.vim/bundle/ctrlp.vim
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_regexp = 1
 
 " -------------------------------------------------------------------
 " leaderF
 " -------------------------------------------------------------------
-"let g:Lf_ShortcutF = '<c-p>'
-"let g:Lf_ShortcutB = '<a-n>'
-"noremap <c-n> :LeaderfMru<cr>
-"noremap <m-p> :LeaderfFunction!<cr>
-"noremap <m-n> :LeaderfBuffer<cr>
-"noremap <m-m> :LeaderfTag<cr>
-"let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-"let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
-"let g:Lf_WorkingDirectoryMode = 'Ac'
-"let g:Lf_WindowHeight = 0.30
-"let g:Lf_CacheDirectory = expand('~/.vim/cache')
-"let g:Lf_ShowRelativePath = 0
-"let g:Lf_HideHelp = 1
-"let g:Lf_StlColorscheme = 'powerline'
-"let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+let g:Lf_ShortcutF = '<c-p>'
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_CommandMap = {'<C-J>': ['<DOWN>'], '<C-K>': ['<UP>']}
 
 " -------------------------------------------------------------------
 " tagbar
@@ -95,17 +97,16 @@ let g:tagbar_left=1
 " -------------------------------------------------------------------
 " keymap
 " -------------------------------------------------------------------
+" map <F2> :ToggleStripWhitespaceOnSave<CR>
+map <F2> :StripWhitespace<CR>
 map <F3> <ESC> :GitGrep <C-R><C-W><CR>
 " map <F4> :NERDTreeToggle<CR>
 " map <F4> <ESC>:Leaderf<CR>
 map <F6> :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 map <C-]> g<C-]>
 map <C-LeftMouse> g<C-]>
-
-" -------------------------------------------------------------------
-" gutentags_plus
-" -------------------------------------------------------------------
-let g:gutentags_plus_switch = 1
+noremap <F9> :res -2<CR>
+noremap <F10> :res +2<CR>
 
 " -------------------------------------------------------------------
 " cscope
@@ -126,12 +127,42 @@ let g:gutentags_plus_switch = 1
 "nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>:bd<CR>:cwindow<CR>
 
 " -------------------------------------------------------------------
-" gtags
-" cs find d is not working....
+" gutentags_plus
+" GscopeFind d is not working
 " -------------------------------------------------------------------
-set cscopetag
-set cscopeprg=gtags-cscope
-set cscopequickfix=c-,d-,e-,g-,i-,s-,t-
+let g:gutentags_plus_switch = 1
+noremap <C-\>s :GscopeFind s <C-R><C-W><cr>
+noremap <C-\>g :GscopeFind g <C-R><C-W><cr>
+noremap <C-\>c :GscopeFind c <C-R><C-W><cr>
+noremap <C-\>t :GscopeFind t <C-R><C-W><cr>
+noremap <C-\>e :GscopeFind e <C-R><C-W><cr>
+noremap <C-\>f :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
+noremap <C-\>i :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
+noremap <C-\>d :GscopeFind d <C-R><C-W><cr>
+noremap <C-\>a :GscopeFind a <C-R><C-W><cr>
+
+" -------------------------------------------------------------------
+" vim-gutentags
+" -------------------------------------------------------------------
+let g:gutentags_modules = []
+let g:gutentags_project_root = ['.jupiter']
+" generate datebases in my cache directory, prevent gtags files polluting my
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+if executable('ctags')
+	let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+	let g:gutentags_modules += ['gtags_cscope']
+endif
+" debugging
+let g:gutentags_define_advanced_commands = 1
+":GutentagsToggleTrace
+
+" -------------------------------------------------------------------
+"set cscopetag
+"set cscopeprg=gtags-cscope
+"set cscopequickfix=c-,d-,e-,g-,i-,s-,t-
 
 " -------------------------------------------------------------------
 " airline
@@ -147,6 +178,7 @@ let g:airline#extensions#tabline#enabled = 1
 " colorscheme
 " -------------------------------------------------------------------
 let g:gruvbox_contrast_dark='hard'
+"let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
 
 " -------------------------------------------------------------------
@@ -188,29 +220,14 @@ colorscheme gruvbox
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
-" -------------------------------------------------------------------
-" vim-gutentags
-" -------------------------------------------------------------------
-let g:gutentags_modules = []
+" vim-signify
+let g:signify_vcs_list = [ 'git', 'svn' ]
 
-if executable('ctags')
-	let g:gutentags_modules += ['ctags']
-endif
-if executable('gtags-cscope') && executable('gtags')
-	let g:gutentags_modules += ['gtags_cscope']
-endif
-
-" -------------------------------------------------------------------
-" gutentags_plus
-" GscopeFind d is not working
-" -------------------------------------------------------------------
-noremap <C-\>s :GscopeFind s <C-R><C-W><cr>
-noremap <C-\>g :GscopeFind g <C-R><C-W><cr>
-noremap <C-\>c :GscopeFind c <C-R><C-W><cr>
-noremap <C-\>t :GscopeFind t <C-R><C-W><cr>
-noremap <C-\>e :GscopeFind e <C-R><C-W><cr>
-noremap <C-\>f :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
-noremap <C-\>i :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
-noremap <C-\>d :GscopeFind d <C-R><C-W><cr>
-noremap <C-\>a :GscopeFind a <C-R><C-W><cr>
-
+" tmuxline
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'win'  : ['#I', '#W'],
+      \'cwin' : ['#I', '#W'],
+      \'y'    : ['%R', '%a', '%Y'],
+      \'z'    : '#H',
+      \'options' : {'status-justify' : 'left'}}
